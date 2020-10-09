@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:medishop/src/screens/signup/signup.dart';
+import 'package:medishop/src/screens/login/login.dart';
 import 'package:medishop/src/utils/const.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,6 +17,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   /// stores the deviceWidth
   var deviceWidth;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

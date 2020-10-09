@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 
 final Color primaryColor = Color(0xff00CCB3);
+final Color greyColor = Color(0xffebebeb);
 
-MaterialColor primarySwatch = MaterialColor(0xff2b7a78, primaryColorMap);
+const String appName = 'MEDISHOP';
+
+MaterialColor primarySwatch = MaterialColor(0xff00CCB3, primaryColorMap);
 Map<int, Color> primaryColorMap = {
   50: Color.fromRGBO(0, 204, 179, .1),
   100: Color.fromRGBO(0, 204, 179, .2),
