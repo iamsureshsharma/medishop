@@ -29,6 +29,19 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  FocusNode passwordNode = FocusNode();
+
+  String password;
+
+  String email;
+
+  @override
+  void initState() {
+    super.initState();
+    AppState initProvider = Provider.of<AppState>(context, listen: false);
+    initProvider.setAutoValidate(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppState>(context);
@@ -45,23 +58,75 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                 width: deviceWidth,
                 color: Colors.white,
               ),
-              SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: deviceHeight * 0.37),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateEmail,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
+              Container(
+                margin: EdgeInsets.only(top: 280),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              validator: validateEmail,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.emailAddress,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(passwordNode);
+                              },
+                              onSaved: (value) {
+                                email = value;
+                              },
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(20),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1.5,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                        width: 1.5,
+                                      )),
+                                  fillColor: greyColor,
+                                  filled: true,
+                                  hintText: 'Email',
+                                  prefixIcon: ImageIcon(
+                                    AssetImage('assets/icons/email.png'),
+                                    color: Color(0xff4F4F4F),
+                                  )),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              validator: validateField,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.text,
+                              focusNode: passwordNode,
+                              onSaved: (value) {
+                                password = value;
+                              },
+                              obscureText: true,
+                              decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(20),
-                                alignLabelWithHint: true,
                                 border: InputBorder.none,
                                 errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -83,94 +148,55 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                                     )),
                                 fillColor: greyColor,
                                 filled: true,
-                                hintText: 'Email',
-                                prefixIcon: ImageIcon(
-                                  AssetImage('assets/icons/email.png'),
+                                hintText: 'Password',
+                                prefixIcon: Icon(
+                                  Icons.visibility,
                                   color: Color(0xff4F4F4F),
-                                )),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateField,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.text,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(20),
-                              border: InputBorder.none,
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1.5,
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: primaryColor,
-                                    width: 1.5,
-                                  )),
-                              fillColor: greyColor,
-                              filled: true,
-                              hintText: 'Password',
-                              prefixIcon: Icon(
-                                Icons.visibility,
-                                color: Color(0xff4F4F4F),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 50),
-                      InkWell(
-                        onTap: onButtonPress,
-                        splashColor: Colors.grey.shade100,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          height: 55,
-                          width: deviceWidth,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: primaryColor,
-                          ),
-                          child: Center(
-                              child: Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                        SizedBox(height: 50),
+                        InkWell(
+                          onTap: onButtonPress,
+                          splashColor: Colors.grey.shade100,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            height: 55,
+                            width: deviceWidth,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: primaryColor,
                             ),
-                          )),
-                        ),
-                      ),
-                      SizedBox(height: 50),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignupScreen()));
-                        },
-                        child: Text(
-                          'Don\'t have account?',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                            child: Center(
+                                child: Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                        SizedBox(height: 50),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignupScreen()), (route) => false);
+                          },
+                          child: Text(
+                            'Don\'t have account?',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -208,6 +234,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
     provider.setAutoValidate(true);
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+      provider.setUserEmail(email, willNotify: false);
       provider.setIsLoading(true);
       Timer(Duration(seconds: 2), () {
         provider.setIsLoading(false, willNotify: false);

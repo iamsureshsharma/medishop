@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medishop/src/provider/store.dart';
 import 'package:medishop/src/utils/const.dart';
+import 'package:provider/provider.dart';
 
 class ProductList extends StatefulWidget {
   @override
@@ -8,23 +13,41 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
+  /// Uses [MediaQuery] to store the size(height/width) of device
+
+  /// stores the deviceHeight
+  var deviceHeight;
+
+  /// stores the deviceWidth
+  var deviceWidth;
+
+  AppState provider;
+
   List<String> medname = List();
 
   @override
   void initState() {
     super.initState();
-    medname = ['Paracetamol', 'Zifi', 'Digene', 'citrizin'];
+    medname = ['Paracetamol', 'Zifi', 'Digene', 'Citrizin', 'Sumo'];
   }
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<AppState>(context);
+    deviceHeight = MediaQuery.of(context).size.height;
+    deviceWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffC0C0C0),
+        key: _scaffoldKey,
+        backgroundColor: Colors.grey.shade300,
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.menu, color: Colors.white),
-            onPressed: () {},
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            },
           ),
           title: Text(
             'Browse Medicines',
@@ -41,23 +64,75 @@ class _ProductListState extends State<ProductList> {
                 onPressed: () {})
           ],
         ),
+        drawer: Container(
+          width: deviceWidth * 0.62,
+          child: Drawer(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                    ),
+                    accountName: Text(provider.userEmail.split('@')[0] ?? '', style: TextStyle(color: Colors.white)),
+                    accountEmail: Text(provider.userEmail ?? '', style: TextStyle(color: Colors.white)),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundColor: Theme.of(context).platform == TargetPlatform.iOS ? primaryColor : Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 45,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {},
+                    leading: ImageIcon(AssetImage('assets/icons/person.png'), size: 25, color: primaryColor),
+                    title: Text('My Profile'),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                  ),
+                  ListTile(
+                    onTap: () {},
+                    leading: Icon(Icons.restore, size: 25, color: primaryColor),
+                    title: Text('Recent Orders'),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                  ),
+                  ListTile(
+                    onTap: () {},
+                    leading: ImageIcon(AssetImage('assets/icons/address.png'), size: 25, color: primaryColor),
+                    title: Text('My Address'),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      SystemNavigator.pop();
+                    },
+                    leading: SizedBox(height: 10, width: 10),
+                    title: Text('Exit'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         body: Container(
-          padding: EdgeInsets.all(15),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Frequently Bought',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
+                  child: Text(
+                    'Frequently Bought',
+                    style: TextStyle(
+                      color: Colors.grey.shade800,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
                 Container(
-                  height: 160,
+                  height: 165,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return medCard(medname[index]);
@@ -65,18 +140,22 @@ class _ProductListState extends State<ProductList> {
                     itemCount: medname.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.only(left: 15),
                   ),
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'Medicines Available',
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
+                  child: Text(
+                    'Medicines Available',
+                    style: TextStyle(
+                      color: Colors.grey.shade800,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
                 Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return medAvailable();
@@ -133,15 +212,6 @@ class _ProductListState extends State<ProductList> {
 
   Widget medCard(String name) {
     return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade500,
-            blurRadius: 2,
-            offset: Offset(1, 1),
-          )
-        ],
-      ),
       margin: EdgeInsets.only(right: 10),
       child: Column(
         children: [
@@ -153,24 +223,31 @@ class _ProductListState extends State<ProductList> {
             ),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           ),
-          Container(
-            width: 100,
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name),
-                SizedBox(height: 3),
-                Text(
-                  '500 mg',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
-                  ),
-                ),
-              ],
+          Card(
+            elevation: 5,
+            margin: EdgeInsets.all(0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            decoration: BoxDecoration(color: Color(0xffA1FFF4), borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+            child: Container(
+              width: 100,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name),
+                  SizedBox(height: 3),
+                  Text(
+                    '500 mg',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(color: Color(0xffA1FFF4), borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+            ),
           ),
         ],
       ),

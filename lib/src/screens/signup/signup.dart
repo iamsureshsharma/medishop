@@ -32,6 +32,21 @@ class _SignupScreenState extends State<SignupScreen> with ValidationMixin {
 
   String password;
 
+  FocusNode emailNode = FocusNode();
+
+  FocusNode mobileNode = FocusNode();
+
+  FocusNode passwordNode = FocusNode();
+
+  FocusNode confirmpasswordNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    AppState initProvider = Provider.of<AppState>(context, listen: false);
+    initProvider.setAutoValidate(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppState>(context);
@@ -48,261 +63,280 @@ class _SignupScreenState extends State<SignupScreen> with ValidationMixin {
                 width: deviceWidth,
                 color: Colors.white,
               ),
-              SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: deviceHeight * 0.37),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateField,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(20),
-                                alignLabelWithHint: true,
-                                border: InputBorder.none,
-                                errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1,
-                                    )),
-                                focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1.5,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: primaryColor,
-                                      width: 1.5,
-                                    )),
-                                fillColor: greyColor,
-                                filled: true,
-                                hintText: 'Name',
-                                prefixIcon: Icon(
-                                  Icons.person,
-                                  color: Color(0xff4F4F4F),
-                                )),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateEmail,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(20),
-                                alignLabelWithHint: true,
-                                border: InputBorder.none,
-                                errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1,
-                                    )),
-                                focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1.5,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: primaryColor,
-                                      width: 1.5,
-                                    )),
-                                fillColor: greyColor,
-                                filled: true,
-                                hintText: 'Email',
-                                prefixIcon: ImageIcon(
-                                  AssetImage('assets/icons/email.png'),
-                                  color: Color(0xff4F4F4F),
-                                )),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateMobile,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(20),
-                                alignLabelWithHint: true,
-                                border: InputBorder.none,
-                                errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1,
-                                    )),
-                                focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Colors.red,
-                                      width: 1.5,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: primaryColor,
-                                      width: 1.5,
-                                    )),
-                                fillColor: greyColor,
-                                filled: true,
-                                hintText: 'Mobile',
-                                prefixIcon: Icon(
-                                  Icons.phone,
-                                  color: Color(0xff4F4F4F),
-                                )),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            validator: validateField,
-                            autovalidate: provider.autoValidate,
-                            keyboardType: TextInputType.text,
-                            obscureText: true,
-                            onChanged: (value) {
-                              password = value;
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(20),
-                              border: InputBorder.none,
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1.5,
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: primaryColor,
-                                    width: 1.5,
-                                  )),
-                              fillColor: greyColor,
-                              filled: true,
-                              hintText: 'Password',
-                              prefixIcon: Icon(
-                                Icons.visibility,
-                                color: Color(0xff4F4F4F),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: TextFormField(
-                            autovalidate: provider.autoValidate,
-                            validator: (value) {
-                              if (value != password)
-                                return 'Passwords must be same';
-                              else
-                                return null;
-                            },
-                            keyboardType: TextInputType.text,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(20),
-                              border: InputBorder.none,
-                              errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1.5,
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: primaryColor,
-                                    width: 1.5,
-                                  )),
-                              fillColor: greyColor,
-                              filled: true,
-                              hintText: 'Confirm password',
-                              prefixIcon: Icon(
-                                Icons.visibility,
-                                color: Color(0xff4F4F4F),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 50),
-                      InkWell(
-                        onTap: onButtonPress,
-                        splashColor: Colors.grey.shade100,
-                        child: Container(
+              Container(
+                margin: EdgeInsets.only(top: 280),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Container(
                           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          height: 55,
-                          width: deviceWidth,
-                          decoration: BoxDecoration(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            color: primaryColor,
-                          ),
-                          child: Center(
-                              child: Text(
-                            'Signup',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                            child: TextFormField(
+                              validator: validateField,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.text,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(emailNode);
+                              },
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(20),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1.5,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                        width: 1.5,
+                                      )),
+                                  fillColor: greyColor,
+                                  filled: true,
+                                  hintText: 'Name',
+                                  prefixIcon: Icon(
+                                    Icons.person,
+                                    color: Color(0xff4F4F4F),
+                                  )),
                             ),
-                          )),
-                        ),
-                      ),
-                      SizedBox(height: 50),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen()));
-                        },
-                        child: Text(
-                          'Already have account?',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              validator: validateEmail,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.emailAddress,
+                              focusNode: emailNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(mobileNode);
+                              },
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(20),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1.5,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                        width: 1.5,
+                                      )),
+                                  fillColor: greyColor,
+                                  filled: true,
+                                  hintText: 'Email',
+                                  prefixIcon: ImageIcon(
+                                    AssetImage('assets/icons/email.png'),
+                                    color: Color(0xff4F4F4F),
+                                  )),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              validator: validateMobile,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.phone,
+                              focusNode: mobileNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(passwordNode);
+                              },
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(20),
+                                  alignLabelWithHint: true,
+                                  border: InputBorder.none,
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1.5,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                        width: 1.5,
+                                      )),
+                                  fillColor: greyColor,
+                                  filled: true,
+                                  hintText: 'Mobile',
+                                  prefixIcon: Icon(
+                                    Icons.phone,
+                                    color: Color(0xff4F4F4F),
+                                  )),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              validator: validateField,
+                              autovalidate: provider.autoValidate,
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              focusNode: passwordNode,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context).requestFocus(confirmpasswordNode);
+                              },
+                              onChanged: (value) {
+                                password = value;
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(20),
+                                border: InputBorder.none,
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 1,
+                                    )),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 1.5,
+                                    )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: primaryColor,
+                                      width: 1.5,
+                                    )),
+                                fillColor: greyColor,
+                                filled: true,
+                                hintText: 'Password',
+                                prefixIcon: Icon(
+                                  Icons.visibility,
+                                  color: Color(0xff4F4F4F),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: TextFormField(
+                              autovalidate: provider.autoValidate,
+                              validator: (value) {
+                                if (value != password)
+                                  return 'Passwords must be same';
+                                else
+                                  return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              focusNode: confirmpasswordNode,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(20),
+                                border: InputBorder.none,
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 1,
+                                    )),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 1.5,
+                                    )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                      color: primaryColor,
+                                      width: 1.5,
+                                    )),
+                                fillColor: greyColor,
+                                filled: true,
+                                hintText: 'Confirm password',
+                                prefixIcon: Icon(
+                                  Icons.visibility,
+                                  color: Color(0xff4F4F4F),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 50),
+                        InkWell(
+                          onTap: onButtonPress,
+                          splashColor: Colors.grey.shade100,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            height: 55,
+                            width: deviceWidth,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: primaryColor,
+                            ),
+                            child: Center(
+                                child: Text(
+                              'Signup',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                          ),
+                        ),
+                        SizedBox(height: 50),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+                          },
+                          child: Text(
+                            'Already have account?',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -344,7 +378,7 @@ class _SignupScreenState extends State<SignupScreen> with ValidationMixin {
       Timer(Duration(seconds: 2), () {
         provider.setIsLoading(false, willNotify: false);
         provider.setAutoValidate(false);
-        scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Logged in successfully!')));
+        scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Signedup successfully!')));
       });
     }
   }
