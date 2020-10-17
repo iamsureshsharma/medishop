@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medishop/src/provider/store.dart';
+import 'package:medishop/src/screens/address/address.dart';
+import 'package:medishop/src/screens/myprofile/myprofile.dart';
+import 'package:medishop/src/screens/product_detail/product_detail.dart';
+import 'package:medishop/src/screens/recent_orders/recent_orders.dart';
 import 'package:medishop/src/utils/const.dart';
 import 'package:provider/provider.dart';
 
@@ -70,34 +74,61 @@ class _ProductListState extends State<ProductList> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                    ),
-                    accountName: Text(provider.userEmail.split('@')[0] ?? '', style: TextStyle(color: Colors.white)),
-                    accountEmail: Text(provider.userEmail ?? '', style: TextStyle(color: Colors.white)),
-                    currentAccountPicture: CircleAvatar(
-                      backgroundColor: Theme.of(context).platform == TargetPlatform.iOS ? primaryColor : Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 45,
-                      ),
+                  Container(
+                    height: 120,
+                    alignment: Alignment.bottomLeft,
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 15),
+                    color: primaryColor,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 25,
+                          child: Icon(
+                            Icons.person,
+                            color: primaryColor,
+                            size: 30,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, bottom: 10),
+                          width: deviceWidth * 0.4,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(provider.userEmail.split('@')[0] ?? '', style: TextStyle(color: Colors.white)),
+                              Text(provider.userEmail ?? '', style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyProfile()));
+                    },
                     leading: ImageIcon(AssetImage('assets/icons/person.png'), size: 25, color: primaryColor),
                     title: Text('My Profile'),
                     trailing: Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecentOrders()));
+                    },
                     leading: Icon(Icons.restore, size: 25, color: primaryColor),
                     title: Text('Recent Orders'),
                     trailing: Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddressScreen()));
+                    },
                     leading: ImageIcon(AssetImage('assets/icons/address.png'), size: 25, color: primaryColor),
                     title: Text('My Address'),
                     trailing: Icon(Icons.arrow_forward_ios, size: 16),
@@ -106,8 +137,9 @@ class _ProductListState extends State<ProductList> {
                     onTap: () {
                       SystemNavigator.pop();
                     },
-                    leading: SizedBox(height: 10, width: 10),
+                    leading: ImageIcon(AssetImage('assets/icons/logout.png'), size: 25, color: primaryColor),
                     title: Text('Exit'),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
                   ),
                 ],
               ),
@@ -180,6 +212,9 @@ class _ProductListState extends State<ProductList> {
       child: Card(
         elevation: 3,
         child: ListTile(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductDetail()));
+          },
           title: Text('Paracetamol'),
           subtitle: Text(
             '500 mg',
