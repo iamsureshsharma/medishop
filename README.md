@@ -33,7 +33,7 @@
 
 ## Author
 
-👤 **Suresh Sharma]
+👤 **Suresh Sharma**
 
 - Twitter: [@iamsureshsharma](https://twitter.com/iamsureshsharma)
 - Blog: [sureshsharma.dev](https://sureshsharma.dev)
@@ -49,4 +49,4 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2020 [Suresh Sharma](https://github.com/iamsureshsharma).<br />
-This project is [MIT](https://github.com/iamsuresharma/medishop/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/iamsureshsharma/medishop/blob/master/LICENSE) licensed.
