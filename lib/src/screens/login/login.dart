@@ -72,15 +72,19 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
                       setState(() {
                         containerHeight = 400;
-                        iconSize = 70;
-                        textSize = 40;
+                        Timer(Duration(milliseconds: 200), () {
+                          iconSize = 70;
+                          textSize = 40;
+                        });
                       });
                     } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
                       setState(() {
                         containerHeight = 430;
                         containerWidth = 500;
-                        iconSize = 100;
-                        textSize = 50;
+                        Timer(Duration(milliseconds: 200), () {
+                          iconSize = 100;
+                          textSize = 50;
+                        });
                       });
                     }
                     return true;
@@ -234,7 +238,8 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: NeverScrollableScrollPhysics(),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 250),
                     height: containerHeight,
                     width: containerWidth,
                     decoration: BoxDecoration(shape: BoxShape.circle, color: primaryColor),

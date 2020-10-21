@@ -77,15 +77,19 @@ class _SignupScreenState extends State<SignupScreen> with ValidationMixin {
                     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
                       setState(() {
                         continerHeight = 400;
-                        iconSize = 70;
-                        textSize = 40;
+                        Timer(Duration(milliseconds: 200), () {
+                          iconSize = 70;
+                          textSize = 40;
+                        });
                       });
                     } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
                       setState(() {
                         continerHeight = 430;
                         continerWidth = 500;
-                        iconSize = 100;
-                        textSize = 50;
+                        Timer(Duration(milliseconds: 200), () {
+                          iconSize = 100;
+                          textSize = 50;
+                        });
                       });
                     }
                     return true;

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:medishop/src/model/med.dart';
 import 'package:medishop/src/provider/store.dart';
 import 'package:medishop/src/screens/address/address.dart';
 import 'package:medishop/src/screens/myprofile/myprofile.dart';
@@ -27,12 +28,32 @@ class _ProductListState extends State<ProductList> {
 
   AppState provider;
 
-  List<String> medname = List();
+  List<Med> topMedName = List();
+
+  List<Med> commonMedNames = List();
 
   @override
   void initState() {
     super.initState();
-    medname = ['Paracetamol', 'Zifi', 'Digene', 'Citrizin', 'Sumo'];
+    topMedName = [
+      Med(name: 'Paracetamol', strength: '650 mg', price: 120, quantity: 1),
+      Med(name: 'Zifi', strength: '200 mg', price: 150, quantity: 1),
+      Med(name: 'Digene', strength: '40 mg', price: 120, quantity: 1),
+      Med(name: 'Citrizin', strength: '10 mg', price: 90, quantity: 1),
+      Med(name: 'Sumo', strength: '500 mg', price: 120, quantity: 1),
+    ];
+    commonMedNames = [
+      Med(name: 'Lipitor', strength: '20 mg', quantity: 1, price: 112),
+      Med(name: 'Sumo', strength: '500 mg', price: 120, quantity: 1),
+      Med(name: 'Metformin', strength: '850 mg', price: 260, quantity: 1),
+      Med(name: 'Zifi', strength: '200 mg', price: 150, quantity: 1),
+      Med(name: 'Omeprazole', strength: '80 mg', price: 220, quantity: 1),
+      Med(name: 'Digene', strength: '40 mg', price: 120, quantity: 1),
+      Med(name: 'Prinivil', strength: '20 mg', price: 150, quantity: 1),
+      Med(name: 'Citrizin', strength: '10 mg', price: 90, quantity: 1),
+      Med(name: 'Synthroid', strength: '100 mcg', price: 120, quantity: 1),
+      Med(name: 'Sumo', strength: '500 mg', price: 120, quantity: 1),
+    ];
   }
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -65,7 +86,9 @@ class _ProductListState extends State<ProductList> {
                   Icons.search,
                   color: Colors.white,
                 ),
-                onPressed: () {})
+                onPressed: () {
+                  showSearch(context: context, delegate: Search());
+                })
           ],
         ),
         drawer: Container(
@@ -167,9 +190,9 @@ class _ProductListState extends State<ProductList> {
                   height: 165,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return medCard(medname[index]);
+                      return medCard(topMedName[index]);
                     },
-                    itemCount: medname.length,
+                    itemCount: topMedName.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.only(left: 15),
@@ -190,9 +213,9 @@ class _ProductListState extends State<ProductList> {
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return medAvailable();
+                      return medAvailable(commonMedNames[index]);
                     },
-                    itemCount: 8,
+                    itemCount: commonMedNames.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                   ),
@@ -206,18 +229,18 @@ class _ProductListState extends State<ProductList> {
     );
   }
 
-  Widget medAvailable() {
+  Widget medAvailable(Med med) {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: Card(
         elevation: 3,
         child: ListTile(
-          onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductDetail()));
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetail(med: med ?? '')));
           },
-          title: Text('Paracetamol'),
+          title: Text(med?.name ?? ''),
           subtitle: Text(
-            '500 mg',
+            med?.strength ?? '',
             style: TextStyle(
               fontSize: 12,
               color: Colors.grey.shade500,
@@ -227,12 +250,12 @@ class _ProductListState extends State<ProductList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '₹ 80',
+                '₹ ${med.price ?? ''}',
                 style: TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.w400),
               ),
               SizedBox(height: 3),
               Text(
-                '(Qt: 1)',
+                '(Qt: ${med?.quantity} Strip)',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey.shade500,
@@ -245,47 +268,89 @@ class _ProductListState extends State<ProductList> {
     );
   }
 
-  Widget medCard(String name) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: Column(
-        children: [
-          Container(
-            width: 100,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-            child: Image.asset(
-              'assets/icons/medIcon.png',
-            ),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-          ),
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container(
+  Widget medCard(Med med) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetail(med: med ?? '')));
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
+        child: Column(
+          children: [
+            Container(
               width: 100,
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name),
-                  SizedBox(height: 3),
-                  Text(
-                    '500 mg',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade500,
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              child: Image.asset(
+                'assets/icons/medIcon.png',
               ),
-              decoration: BoxDecoration(color: Color(0xffA1FFF4), borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
             ),
-          ),
-        ],
+            Card(
+              elevation: 5,
+              margin: EdgeInsets.all(0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                width: 100,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(med?.name ?? ''),
+                    SizedBox(height: 3),
+                    Text(
+                      med?.strength ?? '',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(color: Color(0xffA1FFF4), borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class Search extends SearchDelegate<String> {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            query = "";
+          })
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: () {
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {}
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return Text('');
+      },
+      itemCount: 2,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
     );
   }
 }

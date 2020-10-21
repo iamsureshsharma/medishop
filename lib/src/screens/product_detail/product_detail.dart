@@ -1,26 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:medishop/src/model/med.dart';
 import 'package:medishop/src/utils/const.dart';
 
 class ProductDetail extends StatefulWidget {
+  final Med med;
+
+  const ProductDetail({Key key, @required this.med}) : super(key: key);
+
   @override
   _ProductDetailState createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
   int itemCount = 1;
+  String medName;
+  String medQuantity;
+  double medPrice;
+
+  @override
+  void initState() {
+    super.initState();
+    medName = widget?.med?.name;
+    medQuantity = widget?.med?.quantity.toString();
+    medPrice = widget?.med?.price;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        bottomSheet: Container(
-          height: 50,
-          color: primaryColor,
-          child: Center(
-              child: Text(
-            'Checkout',
-            style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
-          )),
+        bottomSheet: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('Subtotal : ₹ ${medPrice * itemCount}', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade500)),
+                      SizedBox(height: 10),
+                      Text('Delivery: ₹ 50.0', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade500)),
+                      SizedBox(height: 10),
+                      Text('Total Value: ₹ ${medPrice * itemCount + 50}', style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 50,
+              color: primaryColor,
+              child: Center(
+                  child: Text(
+                'Checkout',
+                style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+              )),
+            ),
+          ],
         ),
         appBar: AppBar(
           leading: IconButton(
@@ -56,7 +96,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Paracetamol', style: TextStyle(fontSize: 18, color: Colors.grey.shade600)),
+                          Text(medName ?? '', style: TextStyle(fontSize: 18, color: Colors.grey.shade600)),
                           SizedBox(height: 25),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -99,30 +139,13 @@ class _ProductDetailState extends State<ProductDetail> {
                               SizedBox(width: 10),
                               Text('X', style: TextStyle(fontSize: 18, color: Colors.grey.shade600)),
                               SizedBox(width: 15),
-                              Text('₹ 100' ?? '', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade600)),
+                              Text('₹ $medPrice' ?? '', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade600)),
                             ],
                           ),
                         ],
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text('Subtotal : ₹ ${100 * itemCount}', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade500)),
-                        SizedBox(height: 10),
-                        Text('Delivery: ₹ 50 ', style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.grey.shade500)),
-                        SizedBox(height: 10),
-                        Text('Total Value: ₹ ${100 * itemCount + 50}', style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500)),
-                      ],
-                    )
-                  ],
                 ),
               ],
             ),
