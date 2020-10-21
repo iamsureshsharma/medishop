@@ -1,10 +1,10 @@
 <h1 align="center">Welcome to Medishop 👋</h1>
 <p>
   
-  <a href="https://github.com/iamshadmirza/react-native-design-system/graphs/commit-activity">
+  <a href="https://github.com/iamsureshsharma/medishop/graphs/commit-activity">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
   </a>
-  <a href="https://github.com/iamshadmirza/react-native-design-system/blob/master/LICENSE">
+  <a href="https://github.com/iamsureshsharma/medishop/blob/master/LICENSE">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
   </a>
   <a href="https://twitter.com/iamsureshsharma">
