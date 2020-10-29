@@ -18,7 +18,8 @@
 
 **Medishop** is free flutter app template. Feel free to use as starter for your project or contribute for learning purposes. 😄
 
-https://cdn.discordapp.com/attachments/768386400844120084/771260908717735936/medishop.pngcluded:
+![cover](https://cdn.hashnode.com/res/hashnode/image/upload/v1603956046520/BjlztVo-V.png?auto=compress)
+
 
 ## Screens in
 
