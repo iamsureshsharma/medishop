@@ -41,6 +41,47 @@
 - Twitter: [@iamsureshsharma](https://twitter.com/iamsureshsharma)
 - Blog: [sureshsharma.dev](https://sureshsharma.dev)
 
+## How to Run
+
+**Step 1:**
+
+Download or clone the repo:<br>
+
+Using `HTTPS`:
+
+```sh
+https://github.com/iamsureshsharma/medishop.git
+```
+
+Using `SSH`:
+
+```sh
+git@github.com:iamsureshsharma/medishop.git
+```
+
+Using `GitHub CLI`:
+
+```sh
+gh repo clone iamsureshsharma/medishop
+```
+
+**Step 2:**
+
+Go to project root and execute the following command in console to get the
+required dependencies:
+
+```sh
+flutter pub get
+```
+
+**Step 3:**
+
+Finally, you can run this project locally by using the following command or by using your IDE:
+
+```sh
+flutter run
+```
+
 ## 🤝 Contributing
 
 Feel free to send PR to add features.
